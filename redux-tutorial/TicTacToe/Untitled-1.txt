@@ -1,0 +1,36 @@
+tic-tac-toe Thinking in React for Redux:
+
+Show a 3x3 board of squares
+onClick add X or O alternately
+Indicate a winner if 3 in a row
+
+Show move list including square position
+onClick take board back to relevant move and highlight active move
+
+PRESENTATIONAL
+
+APP 
+- root component
+
+Board 
+- square: Array of square items with {}
+- onSquareClick(id: number) callback when square is clicked
+
+Square
+- value: string X or O
+- winner: boolean inidcate if square is included in winning line
+- onClick() callback when square is clicked
+
+MoveList
+- move: Array of move items with {}
+- onMoveClick(id: number) callback when move is clicked
+
+Move
+- value: string button with move number and coordinates
+- active: boolean indicate if move is currently shown
+- onClick()
+
+CONTAINER
+
+VisibleSquaresList
+FilterLink

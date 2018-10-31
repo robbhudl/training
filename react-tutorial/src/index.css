@@ -35,6 +35,10 @@ body {
   .square:focus {
     outline: none;
   }
+
+  .square-highlight {
+    background: yellow;
+  }
   
   .kbd-navigation .square:focus {
     background: #ddd;
@@ -49,3 +53,10 @@ body {
     margin-left: 20px;
   }
   
+  button:active {
+    font-weight: bold;
+  }
+
+  /* button:hover {
+    font-weight: bold;
+  } */
