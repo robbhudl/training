@@ -1,22 +1,17 @@
 import React from 'react';
 import './index.css';
-import App from './components/App';
+import App from './js/components/App';
 import * as serviceWorker from './serviceWorker';
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
-import tictactoeApp from './reducers'
-
-const store = createStore(tictactoeApp)
+import { render } from "react-dom";
+import { Provider } from "react-redux";
+import store from "./js/store/index";
 
 render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById('root')
-)
-
-// ReactDOM.render(<App />, document.getElementById('root'));
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

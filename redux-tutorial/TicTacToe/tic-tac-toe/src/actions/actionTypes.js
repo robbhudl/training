@@ -1,0 +1,4 @@
+export const ADD_MOVE = 'ADD_MOVE'
+export const GOTO_MOVE = 'GOTO_MOVE'
+
+// const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER'

@@ -1,63 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import PropTypes from 'prop-types';
+import Board from './Board';
 
-function Square(props) {
-    return (
-    <button 
-        className={"square " + props.highlighted}  
-        onClick={props.onClick}
-        /*style={props.highlighted}*/ >
-        {props.value}
-    </button>
-    );
-}
-
-function History(props) {
-    return (
-        <li key={props.move}>
-            <button onClick={() => props.jumpTo(props.move)}>{props.desc}</button> ({props.row},{props.col})
-        </li>
-    );
-}
-  
-class Board extends React.Component {
-    renderSquare(i) {
-        return (
-            <Square 
-                value={this.props.squares[i]} 
-                onClick={() => this.props.onClick(i)}
-                // highlighted={()}
-            />  
-        );
-    }
-  
-    render() {
-        return (
-            <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-            </div>
-        );
-    }
-}
-  
 class Game extends React.Component {
+    static propTypes = {
+        onClick: PropTypes.func.isRequired,
+        move: PropTypes.bool.isRequired,
+        desc: PropTypes.bool.isRequired,
+        row: PropTypes.string.isRequired,
+        col: PropTypes.string.isRequired,
+    };
+
     constructor(props) {
         super(props);
+
         this.state = {
             history: [
                 {
@@ -69,13 +25,15 @@ class Game extends React.Component {
             stepNumber: 0,
             xIsNext: true,
         };
+    
+        this.handleClick = this.handleClick.bind(this);
     }
 
     handleClick(i) {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
-        if (calculateWinner(squares) || squares[i]) {
+        if (this.calculateWinner(squares) || squares[i]) {
             return
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
@@ -95,6 +53,26 @@ class Game extends React.Component {
             xIsNext: !this.state.xIsNext,
         });         
     }
+
+    calculateWinner(squares) {
+        const lines = [
+          [0, 1, 2],
+          [3, 4, 5],
+          [6, 7, 8],
+          [0, 3, 6],
+          [1, 4, 7],
+          [2, 5, 8],
+          [0, 4, 8],
+          [2, 4, 6],
+        ];
+        for (let i = 0; i < lines.length; i++) {
+          const [a, b, c] = lines[i];
+          if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return squares[a];
+          }
+        }
+        return null;
+      }
 
     jumpTo(step) {
         this.setState({
@@ -156,39 +134,5 @@ class Game extends React.Component {
         );
     }
 }
-  
-  // ========================================
-  
-  ReactDOM.render(
-    <Game />,
-    document.getElementById('root')
-  );
 
-  function calculateWinner(squares) {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
-      }
-    }
-    return null;
-  }
-
-  // TODO
-    // * 1 Display the location for each move in the format (col, row) in the move history list.
-    // 2 Bold the currently selected item in the move list.
-    // 3 Rewrite Board to use two loops to make the squares instead of hardcoding them.
-    // 4 Add a toggle button that lets you sort the moves in either ascending or descending order.
-    // 5 When someone wins, highlight the three squares that caused the win.
-    // * 6 When no one wins, display a message about the result being a draw.
-  
+export default Game;
